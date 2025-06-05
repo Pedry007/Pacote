@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f9f9fc;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #5f4b8b;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 350px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.form-card h2 {
+  margin-bottom: 15px;
+  color: #d4008f;
+  font-size: 18px;
+}
+
+.edit-btn {
+  background: #efefef;
+  border: none;
+  color: #fff;
+  background-color: #b85fc6;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-fields label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-fields input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.shipping-options {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.shipping-options label {
+  margin: 0 10px;
+  color: #d4008f;
+}
+
+.dimensions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.dimensions div {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.dimensions input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.price {
+  color: #5f4b8b;
+}
+
+.price h2 {
+  color: #d4008f;
+  margin: 10px 0;
+}
+
+.delivery-date {
+  font-size: 13px;
+  color: #888;
+}
+
+.send-btn {
+  background-color: #d4008f;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.send-btn:hover {
+  background-color: #a5006c;
+}
+
+/* Header CSS */
+
+header {
+  background-color: #FF90C9;
+  padding: 20px;
+}
+
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  color: #5B5ADE;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #5B5ADE;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  border: none;
+  background-color: #5B5ADE;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #3f3fd0;
+}

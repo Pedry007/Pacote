@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enviar Pacote</title>
+  <link rel="stylesheet" href="VendasCSS.css" />
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <header class="bg-pink-strong">
+    <div class="header-container">
+      <div class="logo">swiftlogix</div>
+      <nav>
+        <ul>
+          <li><a href="#">Página Inicial</a></li>
+          <li><a href="#">Rastreamento</a></li>
+          <li><a href="#">Sobre Nós</a></li>
+        </ul>
+      </nav>
+      <a href="login.html" class="login-btn">Login</a>
+    </div>
+  </header>
+
+  <h1>Enviar Pacote</h1>
+
+  <div class="container">
+    <!-- Remetente -->
+    <div class="form-card">
+      <h2>Remetente <button class="edit-btn">Editar</button></h2>
+      <div class="form-fields">
+        <label>Nome:
+          <input type="text" name="nome_remetente" placeholder="Digite o nome" />
+        </label>
+        <label>Data de Nascimento:
+          <input type="date" name="nascimento_remetente" />
+        </label>
+        <label>CPF:
+          <input type="text" name="cpf_remetente" placeholder="000.000.000-00" />
+        </label>
+        <label>Email:
+          <input type="email" name="email_remetente" placeholder="exemplo@email.com" />
+        </label>
+        <label>Telefone/Celular:
+          <input type="tel" name="telefone_remetente" placeholder="+55 (00) 00000-0000" />
+        </label>
+        <label>Endereço:
+          <input type="text" name="endereco_remetente" placeholder="Endereço completo" />
+        </label>
+        <label>Número:
+          <input type="number" name="numero_remetente" placeholder="Número" />
+        </label>
+        <label>Complemento:
+          <input type="text" name="complemento_remetente" placeholder="Complemento" />
+        </label>
+        <label>CEP:
+          <input type="text" name="cep_remetente" placeholder="00.000-000" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Destinatário -->
+    <div class="form-card">
+      <h2>Destinatário <button class="edit-btn">Editar</button></h2>
+      <div class="form-fields">
+        <label>Nome:
+          <input type="text" name="nome_destinatario" placeholder="Digite o nome" />
+        </label>
+        <label>Data de Nascimento:
+          <input type="date" name="nascimento_destinatario" />
+        </label>
+        <label>CPF:
+          <input type="text" name="cpf_destinatario" placeholder="000.000.000-00" />
+        </label>
+        <label>Email:
+          <input type="email" name="email_destinatario" placeholder="exemplo@email.com" />
+        </label>
+        <label>Telefone/Celular:
+          <input type="tel" name="telefone_destinatario" placeholder="+55 (00) 0000-0000" />
+        </label>
+        <label>Endereço:
+          <input type="text" name="endereco_destinatario" placeholder="Endereço completo" />
+        </label>
+        <label>Número:
+          <input type="number" name="numero_destinatario" placeholder="Número" />
+        </label>
+        <label>Complemento:
+          <input type="text" name="complemento_destinatario" placeholder="Complemento" />
+        </label>
+        <label>CEP:
+          <input type="text" name="cep_destinatario" placeholder="99.999-999" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="shipping-options">
+    <label><input type="radio" name="frete" checked /> Express</label>
+    <label><input type="radio" name="frete" /> Normal</label>
+  </div>
+
+  <div class="dimensions">
+    <div><label>Peso</label><input type="text" placeholder="Peso (gramas)" /></div>
+    <div><label>Altura</label><input type="text" placeholder="Altura (cm)" /></div>
+    <div><label>Largura</label><input type="text" placeholder="Largura (cm)" /></div>
+    <div><label>Comprimento</label><input type="text" placeholder="Comprimento (cm)" /></div>
+  </div>
+
+  <div class="footer">
+  <div class="price">
+    <p>Valor do Frete</p>
+    <h2>R$ 49,99</h2>
+    <p class="delivery-date">• Chegará em breve</p>
+  </div>
+  <div id="mensagem" class="mensagem-validacao" style="display: none;"></div>
+<button class="send-btn" onclick="validarFormulario()">Enviar</button>
+
+</div>
+
+<script>
+  function validarFormulario() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"]');
+    let todosPreenchidos = true;
+
+    inputs.forEach(input => {
+      if (input.value.trim() === "") {
+        todosPreenchidos = false;
+      }
+    });
+
+    const mensagemDiv = document.getElementById("mensagem");
+
+    if (todosPreenchidos) {
+      mensagemDiv.style.display = "none";
+      window.location.href = "Rastreio.html";
+    } else {
+      mensagemDiv.textContent = "Por favor, preencha os campos que ainda faltam.";
+      mensagemDiv.style.display = "block";
+      mensagemDiv.classList.remove("sucesso");
+      mensagemDiv.classList.add("erro");
+    }
+  }
+</script>
+
+
+
+
+</body>
+</html>
