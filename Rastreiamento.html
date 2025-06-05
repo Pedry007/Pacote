@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rastrear Pedido - SwiftLogix</title>
+  <link rel="stylesheet" href="VendasCSS.css" />
+  <style>
+    .hidden { display: none; }
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.08);
+    }
+    .info-row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .info-label {
+      font-weight: bold;
+      width: 150px;
+      color: #5f4b8b;
+    }
+    .status-badge {
+      background: #d4008f;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <header class="bg-pink-strong">
+    <div class="header-container">
+      <div class="logo">swiftlogix</div>
+      <nav>
+        <ul>
+          <li><a href="#">Página Inicial</a></li>
+          <li><a href="#">Rastreamento</a></li>
+          <li><a href="#">Sobre Nós</a></li>
+        </ul>
+      </nav>
+      <a href="login.html" class="login-btn">Login</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 800px; margin: 30px auto; padding: 20px;">
+    <h1>Rastrear Pedido</h1>
+    
+    <div class="form-card" style="width: 100%; margin-bottom: 30px;">
+      <h2>Digite seu código de rastreio</h2>
+      <div class="form-fields" style="flex-direction: row; align-items: center; gap: 10px;">
+        <input type="text" id="codigoInput" placeholder="Ex: 1234567890" style="flex: 1; max-width: 300px;" />
+        <button class="send-btn" onclick="buscarPedido()" style="padding: 10px 20px;">Buscar</button>
+      </div>
+      <p style="margin-top: 10px; font-size: 14px; color: #666;">
+        O código foi enviado para o email cadastrado no momento do pedido.
+      </p>
+    </div>
+
+    
+    <div id="resultado" class="hidden">
+      <div class="info-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="color: #d4008f;">Pedido #<span id="pedidoNumero"></span></h2>
+          <span class="status-badge" id="pedidoStatus"></span>
+        </div>
+        
+        <div class="info-row">
+          <div class="info-label">Data do pedido:</div>
+          <div id="pedidoData"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Tipo de envio:</div>
+          <div id="tipoEnvio"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Dimensões:</div>
+          <div id="dimensoes"></div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div class="info-card" style="flex: 1; min-width: 300px;">
+          <h3 style="color: #d4008f; margin-bottom: 15px;">Remetente</h3>
+          <div class="info-row">
+            <div class="info-label">Nome:</div>
+            <div id="remetenteNome"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">CPF:</div>
+            <div id="remetenteCPF"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Email:</div>
+            <div id="remetenteEmail"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Telefone:</div>
+            <div id="remetenteTelefone"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Endereço:</div>
+            <div id="remetenteEndereco"></div>
+          </div>
+        </div>
+
+        <div class="info-card" style="flex: 1; min-width: 300px;">
+          <h3 style="color: #d4008f; margin-bottom: 15px;">Destinatário</h3>
+          <div class="info-row">
+            <div class="info-label">Nome:</div>
+            <div id="destinatarioNome"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">CPF:</div>
+            <div id="destinatarioCPF"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Email:</div>
+            <div id="destinatarioEmail"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Telefone:</div>
+            <div id="destinatarioTelefone"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Endereço:</div>
+            <div id="destinatarioEndereco"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 30px;">
+        <button class="send-btn" style="background-color: #5B5ADE;">Histórico de Atualizações</button>
+        <button class="send-btn" style="background-color: #d4008f; margin-left: 10px;">Imprimir Comprovante</button>
+      </div>
+    </div>
+
+    <div id="mensagemErro" class="mensagem-validacao hidden" style="margin-top: 20px;"></div>
+  </main>
+
+  <script>
+    
+    const pedidosCadastrados = {
+      
+      "1234567890": {
+        
+        numero: "SW" + Math.floor(Math.random() * 1000000000),
+        data: new Date().toLocaleDateString('pt-BR'),
+        status: "Em separação",
+        tipoEnvio: document.querySelector('input[name="frete"]:checked')?.value || "Normal",
+        dimensoes: document.querySelectorAll('.dimensions input') ? 
+          Array.from(document.querySelectorAll('.dimensions input')).map(i => i.value).join(" x ") : "Não informado",
+        
+    
+        remetente: {
+          nome: document.querySelector('input[name="nome_remetente"]')?.value || "Não informado",
+          cpf: document.querySelector('input[name="cpf_remetente"]')?.value || "Não informado",
+          email: document.querySelector('input[name="email_remetente"]')?.value || "Não informado",
+          telefone: document.querySelector('input[name="telefone_remetente"]')?.value || "Não informado",
+          endereco: [
+            document.querySelector('input[name="endereco_remetente"]')?.value,
+            document.querySelector('input[name="numero_remetente"]')?.value,
+            document.querySelector('input[name="complemento_remetente"]')?.value,
+            document.querySelector('input[name="cep_remetente"]')?.value
+          ].filter(Boolean).join(", ") || "Não informado"
+        },
+        
+        destinatario: {
+          nome: document.querySelector('input[name="nome_destinatario"]')?.value || "Não informado",
+          cpf: document.querySelector('input[name="cpf_destinatario"]')?.value || "Não informado",
+          email: document.querySelector('input[name="email_destinatario"]')?.value || "Não informado",
+          telefone: document.querySelector('input[name="telefone_destinatario"]')?.value || "Não informado",
+          endereco: [
+            document.querySelector('input[name="endereco_destinatario"]')?.value,
+            document.querySelector('input[name="numero_destinatario"]')?.value,
+            document.querySelector('input[name="complemento_destinatario"]')?.value,
+            document.querySelector('input[name="cep_destinatario"]')?.value
+          ].filter(Boolean).join(", ") || "Não informado"
+        }
+      }
+    };
+
+    function buscarPedido() {
+      const codigo = document.getElementById('codigoInput').value.trim();
+      const resultadoDiv = document.getElementById('resultado');
+      const mensagemErro = document.getElementById('mensagemErro');
+
+      if (pedidosCadastrados[codigo]) {
+        const pedido = pedidosCadastrados[codigo];
+        
+        // Preenche os dados do pedido
+        document.getElementById('pedidoNumero').textContent = pedido.numero;
+        document.getElementById('pedidoData').textContent = pedido.data;
+        document.getElementById('pedidoStatus').textContent = pedido.status;
+        document.getElementById('tipoEnvio').textContent = pedido.tipoEnvio;
+        document.getElementById('dimensoes').textContent = pedido.dimensoes;
+        
+        // Preenche os dados do remetente
+        document.getElementById('remetenteNome').textContent = pedido.remetente.nome;
+        document.getElementById('remetenteCPF').textContent = pedido.remetente.cpf;
+        document.getElementById('remetenteEmail').textContent = pedido.remetente.email;
+        document.getElementById('remetenteTelefone').textContent = pedido.remetente.telefone;
+        document.getElementById('remetenteEndereco').textContent = pedido.remetente.endereco;
+        
+        
+        document.getElementById('destinatarioNome').textContent = pedido.destinatario.nome;
+        document.getElementById('destinatarioCPF').textContent = pedido.destinatario.cpf;
+        document.getElementById('destinatarioEmail').textContent = pedido.destinatario.email;
+        document.getElementById('destinatarioTelefone').textContent = pedido.destinatario.telefone;
+        document.getElementById('destinatarioEndereco').textContent = pedido.destinatario.endereco;
+        
+        resultadoDiv.classList.remove('hidden');
+        mensagemErro.classList.add('hidden');
+      } else {
+        resultadoDiv.classList.add('hidden');
+        mensagemErro.textContent = 'Código não encontrado. Verifique se digitou corretamente.';
+        mensagemErro.classList.remove('hidden');
+        mensagemErro.classList.add('erro');
+      }
+    }
+  </script>
+
+</body>
+</html>
