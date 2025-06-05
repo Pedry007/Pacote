@@ -3,67 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verificação de Envio</title>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <title>Código de Rastreio</title>
+  <link rel="stylesheet" href="VendasCSS.css" />
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="flex flex-col min-h-screen">
 
-  <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm text-center">
-    <h2 class="text-xl font-bold text-blue-700 mb-4">Código de Rastreio</h2>
-    <input
-      type="text"
-      id="codigoRastreio"
-      placeholder="Ex.: AA123456789BR"
-      class="w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-    />
+  <header class="bg-pink-strong">
+    <div class="header-container">
+      <div class="logo">swiftlogix</div>
+      <nav>
+        <ul>
+          <li><a href="#">Página Inicial</a></li>
+          <li><a href="#">Rastreamento</a></li>
+          <li><a href="#">Sobre Nós</a></li>
+        </ul>
+      </nav>
+      <a href="login.html" class="login-btn">Login</a>
+    </div>
+  </header>
 
-    <h2 class="text-xl font-bold text-blue-700 mb-4">Palavra-Chave</h2>
-    <input
-      type="text"
-      id="palavraChave"
-      placeholder="Ex.: CONTENDA"
-      class="w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-    />
-
-    <button
-      onclick="verificarCampos()"
-      class="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded transition duration-200"
-    >
-      Verificar
-    </button>
-
-    <div id="mensagem" class="mt-4 text-lg font-semibold"></div>
-    <div id="codigoGerado" class="text-green-600 mt-2 font-mono"></div>
-  </div>
+  <main class="container" style="text-align: center; margin-top: 50px;">
+    <h1>Código de Rastreio Gerado</h1>
+    <p style="font-size: 24px; margin: 20px 0;">Seu código é:</p>
+    <div id="codigoRastreio" style="font-size: 32px; font-weight: bold; color: #e60073;"></div>
+    <p style="margin-top: 40px;">Anote esse código para acompanhar seu envio.</p>
+  </main>
 
   <script>
-    function verificarCampos() {
-      const codigo = document.getElementById('codigoRastreio').value.trim();
-      const palavra = document.getElementById('palavraChave').value.trim();
-      const mensagem = document.getElementById('mensagem');
-      const codigoGerado = document.getElementById('codigoGerado');
-
-      if (codigo !== '' && palavra !== '') {
-        mensagem.textContent = "✅ Concluído!";
-        mensagem.classList.remove("text-red-600");
-        mensagem.classList.add("text-green-600");
-        codigoGerado.textContent = "Código gerado: " + gerarCodigoNumerico(10);
-      } else {
-        mensagem.textContent = "⚠️ Por favor, ainda faltam campos a serem preenchidos.";
-        mensagem.classList.remove("text-green-600");
-        mensagem.classList.add("text-red-600");
-        codigoGerado.textContent = "";
-      }
+    // Gera um número aleatório de 10 dígitos
+    function gerarCodigoRastreio() {
+      const codigo = Math.floor(Math.random() * 1e10).toString().padStart(10, "0");
+      document.getElementById("codigoRastreio").textContent = codigo;
     }
 
-    function gerarCodigoNumerico(tamanho) {
-      let codigo = '';
-      for (let i = 0; i < tamanho; i++) {
-        codigo += Math.floor(Math.random() * 10);
-      }
-      return codigo;
-    }
+    // Executa ao carregar a página
+    window.onload = gerarCodigoRastreio;
   </script>
 
 </body>
